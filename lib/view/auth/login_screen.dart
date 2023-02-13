@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     CustomTextFormField(
                       label: "Password",
-                      hintText: "* * * * * * * *",
+                      hintText: "* * * * * * * * ",
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
