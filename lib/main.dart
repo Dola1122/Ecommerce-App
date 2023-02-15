@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/view/auth/login_screen.dart';
 import 'package:ecommerce_app/view/auth/register_screen.dart';
+import 'package:ecommerce_app/view/budget.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'SF Pro Display',
       ),
       debugShowCheckedModeBanner: false,
-      home: RegisterScreen(),
+      home: BudgetScreen(),
     );
   }
 }
