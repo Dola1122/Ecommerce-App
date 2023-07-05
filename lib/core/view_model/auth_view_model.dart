@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/view/auth/login_screen.dart';
+import 'package:ecommerce_app/view/home_view.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -6,6 +8,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthViewModel extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  String email = "", password = "";
+
+  Future<void> signInWithEmailAndPassword() async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      Get.offAll(HomeView());
+
+      // Handle successful sign-in
+      print('Sign-in successful: ${userCredential.user?.email}');
+    } catch (e) {
+      // Handle sign-in failure
+      print('Sign-in error: $e');
+    }
+  }
 
   Future<void> signInWithGoogle() async {
     try {
@@ -56,4 +77,6 @@ class AuthViewModel extends GetxController {
       print('Facebook sign-in error: $e');
     }
   }
+
+
 }

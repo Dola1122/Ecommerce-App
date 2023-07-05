@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends GetWidget<AuthViewModel> {
-  const LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,60 +38,71 @@ class LoginScreen extends GetWidget<AuthViewModel> {
                   ],
                 ),
                 padding: EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Welcome,",
-                          style: Styles.textStyle30,
-                        ),
-                        Text(
-                          "Sign Up",
-                          style:
-                              Styles.textStyle18.copyWith(color: customGreen),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Align(
-                      child: Text(
-                        "Sign in to Continue",
-                        style: Styles.textStyle14.copyWith(color: Colors.grey),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Welcome,",
+                            style: Styles.textStyle30,
+                          ),
+                          Text(
+                            "Sign Up",
+                            style:
+                                Styles.textStyle18.copyWith(color: customGreen),
+                          ),
+                        ],
                       ),
-                      alignment: Alignment.centerLeft,
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    CustomTextFormField(
-                      label: "Email",
-                      hintText: "iamdavid@gmail.com",
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    CustomTextFormField(
-                      label: "Password",
-                      hintText: "* * * * * * * * ",
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Align(
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Align(
                         child: Text(
-                          "Forgot Password?",
-                          style: Styles.textStyle14,
+                          "Sign in to Continue",
+                          style:
+                              Styles.textStyle14.copyWith(color: Colors.grey),
                         ),
-                        alignment: Alignment.centerRight,
+                        alignment: Alignment.centerLeft,
                       ),
-                    ),
-                    CustomButton(
-                      text: "SIGN IN",
-                    )
-                  ],
+                      SizedBox(
+                        height: 50,
+                      ),
+                      CustomTextFormField(
+                          label: "Email",
+                          hintText: "iamdavid@gmail.com",
+                          onChanged: (value) {
+                            controller.email = value;
+                          }),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      CustomTextFormField(
+                          label: "Password",
+                          hintText: "* * * * * * * * ",
+                          onChanged: (value) {
+                            controller.password = value;
+                          }),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Align(
+                          child: Text(
+                            "Forgot Password?",
+                            style: Styles.textStyle14,
+                          ),
+                          alignment: Alignment.centerRight,
+                        ),
+                      ),
+                      CustomButton(
+                        text: "SIGN IN",
+                        onPressed: () async {
+                          await controller.signInWithEmailAndPassword();
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
               SizedBox(

@@ -7,12 +7,13 @@ class CustomTextFormField extends StatelessWidget {
     super.key,
     required this.label,
     required this.hintText,
+    required this.onChanged, // New onChanged callback
     // required this.controller,
   });
 
   final String label;
   final String hintText;
-  // final TextEditingController controller;
+  final ValueChanged<String> onChanged; // onChanged callback
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,7 @@ class CustomTextFormField extends StatelessWidget {
         ),
         hintText: hintText,
       ),
+      onChanged: onChanged, // Assign the onChanged callback
       // controller: controller,
     );
   }

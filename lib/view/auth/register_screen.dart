@@ -1,7 +1,6 @@
 import 'package:ecommerce_app/core/utils/constants.dart';
 import 'package:ecommerce_app/core/utils/styles.dart';
 import 'package:ecommerce_app/view/widgets/custom_button.dart';
-import 'package:ecommerce_app/view/widgets/custom_button_social.dart';
 import 'package:ecommerce_app/view/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
@@ -74,27 +73,27 @@ class RegisterScreen extends StatelessWidget {
                     ),
                     CustomTextFormField(
                       label: "Name",
-                      hintText: "David Spade",
+                      hintText: "David Spade", onChanged: (String value) {  },
                     ),
                     SizedBox(
                       height: 40,
                     ),
                     CustomTextFormField(
                       label: "Email",
-                      hintText: "iamdavid@gmail.com",
+                      hintText: "iamdavid@gmail.com", onChanged: (String value) {  },
                     ),
                     SizedBox(
                       height: 40,
                     ),
                     CustomTextFormField(
                       label: "Password",
-                      hintText: "* * * * * * * *",
+                      hintText: "* * * * * * * *", onChanged: (String value) {  },
                     ),
                     SizedBox(
                       height: 60,
                     ),
                     CustomButton(
-                      text: "SIGN UP",
+                      text: "SIGN UP", onPressed: () {  },
                     )
                   ],
                 ),

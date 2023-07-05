@@ -1,6 +1,5 @@
 import 'package:ecommerce_app/core/utils/binding.dart';
 import 'package:ecommerce_app/view/auth/login_screen.dart';
-import 'package:ecommerce_app/view/auth/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
