@@ -1,11 +1,13 @@
 import 'package:ecommerce_app/core/utils/constants.dart';
 import 'package:ecommerce_app/core/utils/styles.dart';
+import 'package:ecommerce_app/core/view_model/auth_view_model.dart';
 import 'package:ecommerce_app/view/widgets/custom_button.dart';
 import 'package:ecommerce_app/view/widgets/custom_button_social.dart';
 import 'package:ecommerce_app/view/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends GetWidget<AuthViewModel> {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
@@ -104,13 +106,17 @@ class LoginScreen extends StatelessWidget {
               CustomButtonSocial(
                 text: "Sign In with Facebook",
                 assetImagePath: 'assets/images/facebook.png',
+                onPressed: () {},
               ),
               SizedBox(
                 height: 20,
               ),
               CustomButtonSocial(
-                text: "Sign In with Facebook",
+                text: "Sign In with Google",
                 assetImagePath: 'assets/images/google.png',
+                onPressed: () async {
+                  await controller.signInWithGoogle();
+                },
               ),
               // Spacer(),
             ],
