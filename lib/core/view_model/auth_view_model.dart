@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/core/services/firestore_user.dart';
+import 'package:ecommerce_app/model/user_model.dart';
 import 'package:ecommerce_app/view/auth/login_screen.dart';
 import 'package:ecommerce_app/view/home_view.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -53,7 +55,11 @@ class AuthViewModel extends GetxController {
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
 
+      await saveUserToFireStore(userCredential);
+
       _user.value = userCredential.user;
+      Get.offAll(HomeView());
+
       print(userCredential);
 
       // Handle successful sign-in
@@ -74,7 +80,15 @@ class AuthViewModel extends GetxController {
         final credential = FacebookAuthProvider.credential(accessToken!.token);
 
         // Sign in to Firebase using the Facebook credential
-        await _auth.signInWithCredential(credential);
+        UserCredential userCredential =
+            await _auth.signInWithCredential(credential);
+
+        await saveUserToFireStore(userCredential);
+
+        _user.value = userCredential.user;
+        Get.offAll(HomeView());
+
+        print(userCredential);
         // Handle successful sign-in
       } else if (result.status == LoginStatus.cancelled) {
         // Handle cancellation
@@ -91,12 +105,15 @@ class AuthViewModel extends GetxController {
 
   Future<void> signUpWithEmailAndPassword() async {
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
       if (userCredential.user != null) {
+        await saveUserToFireStore(userCredential);
+
         Get.offAll(HomeView());
       }
 
@@ -108,6 +125,15 @@ class AuthViewModel extends GetxController {
     }
   }
 
+  Future<void> saveUserToFireStore(UserCredential userCredential) async {
+    FirestoreUser firestoreUser = FirestoreUser();
 
-
+    UserModel user = UserModel(
+      userId: userCredential.user!.uid,
+      email: userCredential.user!.email!,
+      name: name == "" ? userCredential.user!.displayName! : name,
+      picture: "",
+    );
+    await firestoreUser.addUser(user);
+  }
 }

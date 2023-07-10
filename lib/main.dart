@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home:
           // ControlView(),
-          RegisterScreen(),
+          // RegisterScreen(),
+          LoginScreen(),
     );
   }
 }
