@@ -1,10 +1,12 @@
 import 'package:ecommerce_app/core/utils/constants.dart';
 import 'package:ecommerce_app/core/utils/styles.dart';
+import 'package:ecommerce_app/core/view_model/auth_view_model.dart';
 import 'package:ecommerce_app/view/widgets/custom_button.dart';
 import 'package:ecommerce_app/view/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends GetWidget<AuthViewModel> {
   const RegisterScreen({Key? key}) : super(key: key);
 
   @override
@@ -73,27 +75,39 @@ class RegisterScreen extends StatelessWidget {
                     ),
                     CustomTextFormField(
                       label: "Name",
-                      hintText: "David Spade", onChanged: (String value) {  },
+                      hintText: "David Spade",
+                      onChanged: (String value) {
+                        controller.name = value;
+                      },
                     ),
                     SizedBox(
                       height: 40,
                     ),
                     CustomTextFormField(
                       label: "Email",
-                      hintText: "iamdavid@gmail.com", onChanged: (String value) {  },
+                      hintText: "iamdavid@gmail.com",
+                      onChanged: (String value) {
+                        controller.email = value;
+                      },
                     ),
                     SizedBox(
                       height: 40,
                     ),
                     CustomTextFormField(
                       label: "Password",
-                      hintText: "* * * * * * * *", onChanged: (String value) {  },
+                      hintText: "* * * * * * * *",
+                      onChanged: (String value) {
+                        controller.password = value;
+                      },
                     ),
                     SizedBox(
                       height: 60,
                     ),
                     CustomButton(
-                      text: "SIGN UP", onPressed: () {  },
+                      text: "SIGN UP",
+                      onPressed: () {
+                        controller.signUpWithEmailAndPassword();
+                      },
                     )
                   ],
                 ),

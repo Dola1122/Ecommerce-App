@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/core/utils/binding.dart';
 import 'package:ecommerce_app/view/auth/login_screen.dart';
+import 'package:ecommerce_app/view/auth/register_screen.dart';
 import 'package:ecommerce_app/view/control_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       initialBinding: Binding(),
       debugShowCheckedModeBanner: false,
-      home: ControlView(),
+      home:
+          // ControlView(),
+          RegisterScreen(),
     );
   }
 }

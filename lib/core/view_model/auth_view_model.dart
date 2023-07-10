@@ -89,5 +89,25 @@ class AuthViewModel extends GetxController {
     }
   }
 
+  Future<void> signUpWithEmailAndPassword() async {
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      if (userCredential.user != null) {
+        Get.offAll(HomeView());
+      }
+
+      // Handle successful sign-up
+      print('Sign-up successful: ${userCredential.user?.email}');
+    } catch (e) {
+      // Handle sign-up failure
+      print('Sign-up error: $e');
+    }
+  }
+
+
 
 }
