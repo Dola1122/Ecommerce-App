@@ -9,7 +9,16 @@ class AuthViewModel extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  String email = "", password = "";
+  String email = "", password = "", name = "";
+  Rx<User?> _user = Rx<User?>(null);
+
+  String? get user => _user.value?.email;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _user.bindStream(_auth.authStateChanges());
+  }
 
   Future<void> signInWithEmailAndPassword() async {
     try {
@@ -17,7 +26,7 @@ class AuthViewModel extends GetxController {
         email: email,
         password: password,
       );
-
+      _user.value = userCredential.user;
       Get.offAll(HomeView());
 
       // Handle successful sign-in
@@ -43,6 +52,8 @@ class AuthViewModel extends GetxController {
       // Sign in to Firebase using the Google credential
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
+
+      _user.value = userCredential.user;
       print(userCredential);
 
       // Handle successful sign-in
