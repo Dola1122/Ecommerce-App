@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
       initialBinding: Binding(),
       debugShowCheckedModeBanner: false,
       home:
-          // ControlView(),
+          ControlView(),
           // RegisterScreen(),
-          LoginScreen(),
+          // LoginScreen(),
     );
   }
 }
