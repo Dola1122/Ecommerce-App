@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/core/view_model/home_view_model.dart';
 import 'package:ecommerce_app/model/category_model.dart';
 import 'package:ecommerce_app/model/product_model.dart';
+import 'package:ecommerce_app/view/details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -208,44 +209,54 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 220,
-            child: Image.network(
-              product.image,
-              fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        Get.to(
+          DetailsView(
+            model: product,
+          ),
+        );
+      },
+      child: Container(
+        width: 150,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 220,
+              child: Image.network(
+                product.image,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Text(
-            product.name,
-            style: TextStyle(
-              fontSize: 16,
+            SizedBox(
+              height: 8,
             ),
-          ),
-          SizedBox(
-            height: 4,
-          ),
-          Text(
-            product.description,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 12, color: Colors.grey),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Text(
-            "\$${product.price}",
-            style: TextStyle(fontSize: 16, color: Colors.greenAccent.shade700),
-          ),
-        ],
+            Text(
+              product.name,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            Text(
+              product.description,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              "\$${product.price}",
+              style:
+                  TextStyle(fontSize: 16, color: Colors.greenAccent.shade700),
+            ),
+          ],
+        ),
       ),
     );
   }
