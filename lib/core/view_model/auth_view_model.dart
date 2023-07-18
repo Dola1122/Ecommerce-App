@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/core/services/firestore_user.dart';
 import 'package:ecommerce_app/model/user_model.dart';
 import 'package:ecommerce_app/view/auth/login_screen.dart';
+import 'package:ecommerce_app/view/control_view.dart';
 import 'package:ecommerce_app/view/home_view.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
@@ -29,7 +30,7 @@ class AuthViewModel extends GetxController {
         password: password,
       );
       _user.value = userCredential.user;
-      Get.offAll(HomeView());
+      Get.offAll(ControlView());
 
       // Handle successful sign-in
       print('Sign-in successful: ${userCredential.user?.email}');
@@ -58,7 +59,7 @@ class AuthViewModel extends GetxController {
       await saveUserToFireStore(userCredential);
 
       _user.value = userCredential.user;
-      Get.offAll(HomeView());
+      Get.offAll(ControlView());
 
       print(userCredential);
 
@@ -86,7 +87,7 @@ class AuthViewModel extends GetxController {
         await saveUserToFireStore(userCredential);
 
         _user.value = userCredential.user;
-        Get.offAll(HomeView());
+        Get.offAll(ControlView());
 
         print(userCredential);
         // Handle successful sign-in
@@ -114,7 +115,7 @@ class AuthViewModel extends GetxController {
       if (userCredential.user != null) {
         await saveUserToFireStore(userCredential);
 
-        Get.offAll(HomeView());
+        Get.offAll(ControlView());
       }
 
       // Handle successful sign-up

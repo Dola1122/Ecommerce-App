@@ -1,54 +1,63 @@
+import 'package:ecommerce_app/core/view_model/cart_view_model.dart';
+import 'package:ecommerce_app/model/cart_product_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 class CartView extends StatelessWidget {
-  List<String> names = [
-    "product1",
-    "product2",
-    "product3",
-    "product4",
-    "product5",
-  ];
-  List<String> images = [
-    "assets/images/watch.png",
-    "assets/images/watch.png",
-    "assets/images/watch.png",
-    "assets/images/watch.png",
-    "assets/images/watch.png",
-  ];
-  List<double> prices = [
-    110,
-    720,
-    360,
-    320,
-    1050,
-  ];
+  const CartView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: ListView.builder(
-          itemCount: names.length,
-          itemBuilder: (context, index) {
-            return CartItemWidget(
-              name: names[index],
-              image: images[index],
-              price: prices[index],
-            );
-          },
+    return GetBuilder<CartViewModel>(
+      init: CartViewModel(),
+      builder: (controller) => Scaffold(
+        body: SafeArea(
+          child: Container(
+            padding: EdgeInsets.only(
+              top: 16,
+              right: 16,
+              left: 16,
+            ),
+            child: ListView.builder(
+              itemCount: controller.cartProducts.length,
+              itemBuilder: (context, index) {
+                CartProductModel model = controller.cartProducts[index];
+                return CartItemWidget(
+                  product: model,
+                  onDecrease: () {
+                    if (model.quantity > 1) {
+                      model.quantity--;
+                      controller.updateCartProduct(model);
+                    }
+                  },
+                  onIncrease: () {
+                    model.quantity++;
+                    controller.updateCartProduct(model);
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+        bottomNavigationBar: CheckoutButtonWidget(
+          totalAmount: controller.total,
         ),
       ),
-      bottomNavigationBar: CheckoutButtonWidget(),
     );
   }
 }
 
 class CartItemWidget extends StatelessWidget {
-  final String name;
-  final String image;
-  final double price;
+  final CartProductModel product;
+  final VoidCallback onDecrease;
+  final VoidCallback onIncrease;
 
-  CartItemWidget({required this.name, required this.image, required this.price});
+  CartItemWidget({
+    required this.product,
+    required this.onDecrease,
+    required this.onIncrease,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +65,8 @@ class CartItemWidget extends StatelessWidget {
       height: 140,
       child: Row(
         children: [
-          Image.asset(
-            image,
+          Image.network(
+            product.image,
             width: 130,
             height: 130,
             fit: BoxFit.cover,
@@ -69,12 +78,12 @@ class CartItemWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  name,
+                  product.name,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 5),
                 Text(
-                  '\$$price', // Use the actual price for the product
+                  '\$${product.price}',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.greenAccent.shade700,
@@ -82,7 +91,11 @@ class CartItemWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                QuantityRowWidget(),
+                QuantityRowWidget(
+                  product: product,
+                  onDecrease: onDecrease,
+                  onIncrease: onIncrease,
+                ),
               ],
             ),
           ),
@@ -93,40 +106,70 @@ class CartItemWidget extends StatelessWidget {
 }
 
 class QuantityRowWidget extends StatelessWidget {
+  final CartProductModel product;
+  final VoidCallback onDecrease;
+  final VoidCallback onIncrease;
+
+  QuantityRowWidget({
+    required this.product,
+    required this.onDecrease,
+    required this.onIncrease,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 40,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        color: Colors.grey[200],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            icon: Icon(Icons.remove),
+    return Row(
+      children: [
+        Container(
+          height: 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            color: Colors.grey[200],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(Icons.remove),
+                onPressed: onDecrease,
+              ),
+              Text(
+                product.quantity.toString(),
+                style: TextStyle(fontSize: 16),
+              ),
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: onIncrease,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 12),
+          height: 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            color: Colors.grey[200],
+          ),
+          child: IconButton(
+            icon: Icon(Icons.delete),
+            color: Colors.red,
             onPressed: () {
-              // Handle decrease quantity logic
+              final CartViewModel cartController = Get.find();
+              cartController.removeFromCart(product);
             },
           ),
-          Text(
-            '2', // Replace with the actual quantity for the product
-            style: TextStyle(fontSize: 16),
-          ),
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              // Handle increase quantity logic
-            },
-          ),
-        ],
-      ),
+        )
+      ],
     );
   }
 }
 
 class CheckoutButtonWidget extends StatelessWidget {
+  final double totalAmount;
+
+  CheckoutButtonWidget({required this.totalAmount});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -143,7 +186,7 @@ class CheckoutButtonWidget extends StatelessWidget {
                 style: TextStyle(color: Colors.grey),
               ),
               Text(
-                '\$19.98', // Replace with the actual total amount
+                '\$${totalAmount.toStringAsFixed(2)}',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/core/utils/constants.dart';
 import 'package:ecommerce_app/core/utils/styles.dart';
 import 'package:ecommerce_app/core/view_model/auth_view_model.dart';
+import 'package:ecommerce_app/view/auth/register_screen.dart';
 import 'package:ecommerce_app/view/widgets/custom_button.dart';
 import 'package:ecommerce_app/view/widgets/custom_button_social.dart';
 import 'package:ecommerce_app/view/widgets/custom_text_form_field.dart';
@@ -49,10 +50,15 @@ class LoginScreen extends GetWidget<AuthViewModel> {
                             "Welcome,",
                             style: Styles.textStyle30,
                           ),
-                          Text(
-                            "Sign Up",
-                            style:
-                                Styles.textStyle18.copyWith(color: customGreen),
+                          InkWell(
+                            onTap: () {
+                              Get.to(RegisterScreen());
+                            },
+                            child: Text(
+                              "Sign Up",
+                              style: Styles.textStyle18
+                                  .copyWith(color: customGreen),
+                            ),
                           ),
                         ],
                       ),

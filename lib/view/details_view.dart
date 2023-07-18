@@ -1,5 +1,8 @@
+import 'package:ecommerce_app/core/view_model/cart_view_model.dart';
+import 'package:ecommerce_app/model/cart_product_model.dart';
 import 'package:ecommerce_app/model/product_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DetailsView extends StatelessWidget {
   final ProductModel model;
@@ -149,18 +152,51 @@ class DetailsView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Container(
-                    width: 150,
-                    color: Colors.greenAccent.shade700,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Add',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.white,
+                  GetBuilder<CartViewModel>(
+                    init: CartViewModel(),
+                    builder: (controller) => Container(
+                      width: 150,
+                      color: Colors.greenAccent.shade700,
+                      child: MaterialButton(
+                        onPressed: () async {
+                          if (!controller.cartProducts.any((cartProduct) =>
+                              cartProduct.productId == model.productId)) {
+                            await controller.addToCart(
+                              CartProductModel(
+                                productId: model.productId,
+                                name: model.name,
+                                image: model.image,
+                                price: double.parse(model.price),
+                              ),
+                            );
+                            Get.snackbar(
+                              'Product added',
+                              'The product has been added to the cart.',
+                              snackPosition: SnackPosition.TOP,
+                              backgroundColor: Colors.green,
+                              colorText: Colors.white,
+                              duration: Duration(seconds: 3),
+                            );
+                          } else {
+                            Get.snackbar(
+                              'Product not added',
+                              'The product is already in the cart.',
+                              snackPosition: SnackPosition.TOP,
+                              backgroundColor: Colors.red,
+                              colorText: Colors.white,
+                              duration: Duration(seconds: 3),
+                            );
+                          }
+                        },
+                        child: Text(
+                          'Add',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
                         ),
+                        splashColor: Colors.white,
                       ),
                     ),
                   ),
