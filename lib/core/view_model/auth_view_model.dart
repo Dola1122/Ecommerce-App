@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/core/services/firestore_user.dart';
+import 'package:ecommerce_app/core/utils/local_storage_data.dart';
 import 'package:ecommerce_app/model/user_model.dart';
-import 'package:ecommerce_app/view/auth/login_screen.dart';
+import 'package:ecommerce_app/view/auth/login_view.dart';
 import 'package:ecommerce_app/view/control_view.dart';
 import 'package:ecommerce_app/view/home_view.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -11,7 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthViewModel extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-
+  final LocalStorageData _localStorageData = Get.find<LocalStorageData>();
   String email = "", password = "", name = "";
   Rx<User?> _user = Rx<User?>(null);
 
@@ -22,7 +23,6 @@ class AuthViewModel extends GetxController {
     super.onInit();
     _user.bindStream(_auth.authStateChanges());
   }
-
   Future<void> signInWithEmailAndPassword() async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
@@ -30,6 +30,17 @@ class AuthViewModel extends GetxController {
         password: password,
       );
       _user.value = userCredential.user;
+
+      // Store user data in local storage
+      final UserModel user = UserModel(
+        userId: userCredential.user?.uid ?? '',
+        name: userCredential.user?.displayName ?? '',
+        email: userCredential.user?.email ?? '',
+        picture: '', // Set the user's picture if available
+      );
+
+      await _localStorageData.setUser(user);
+
       Get.offAll(ControlView());
 
       // Handle successful sign-in
@@ -39,6 +50,7 @@ class AuthViewModel extends GetxController {
       print('Sign-in error: $e');
     }
   }
+
 
   Future<void> signInWithGoogle() async {
     try {
@@ -59,6 +71,17 @@ class AuthViewModel extends GetxController {
       await saveUserToFireStore(userCredential);
 
       _user.value = userCredential.user;
+
+      // Store user data in local storage
+      final UserModel user = UserModel(
+        userId: userCredential.user?.uid ?? '',
+        name: userCredential.user?.displayName ?? '',
+        email: userCredential.user?.email ?? '',
+        picture: '', // Set the user's picture if available
+      );
+
+      await _localStorageData.setUser(user);
+
       Get.offAll(ControlView());
 
       print(userCredential);
@@ -87,6 +110,17 @@ class AuthViewModel extends GetxController {
         await saveUserToFireStore(userCredential);
 
         _user.value = userCredential.user;
+
+        // Store user data in local storage
+        final UserModel user = UserModel(
+          userId: userCredential.user?.uid ?? '',
+          name: userCredential.user?.displayName ?? '',
+          email: userCredential.user?.email ?? '',
+          picture: '', // Set the user's picture if available
+        );
+
+        await _localStorageData.setUser(user);
+
         Get.offAll(ControlView());
 
         print(userCredential);

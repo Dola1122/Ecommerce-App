@@ -1,6 +1,6 @@
 import 'package:ecommerce_app/core/view_model/auth_view_model.dart';
 import 'package:ecommerce_app/core/view_model/control_view_model.dart';
-import 'package:ecommerce_app/view/auth/login_screen.dart';
+import 'package:ecommerce_app/view/auth/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,9 +9,13 @@ class ControlView extends GetWidget<AuthViewModel> {
   Widget build(BuildContext context) {
     return Obx(
       () {
-        return (Get.find<AuthViewModel>().user == null)
-            ? LoginScreen()
+        final authViewModel = Get.find<AuthViewModel>();
+        final user = authViewModel.user;
+
+        return (user == null)
+            ? LoginView()
             : GetBuilder<ControlViewModel>(
+                init: ControlViewModel(),
                 builder: (controller) => Scaffold(
                   body: controller.currentScreen,
                   bottomNavigationBar: bottomNavigationBar(),

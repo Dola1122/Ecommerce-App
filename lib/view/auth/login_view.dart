@@ -1,15 +1,15 @@
 import 'package:ecommerce_app/core/utils/constants.dart';
 import 'package:ecommerce_app/core/utils/styles.dart';
 import 'package:ecommerce_app/core/view_model/auth_view_model.dart';
-import 'package:ecommerce_app/view/auth/register_screen.dart';
+import 'package:ecommerce_app/view/auth/register_view.dart';
 import 'package:ecommerce_app/view/widgets/custom_button.dart';
 import 'package:ecommerce_app/view/widgets/custom_button_social.dart';
 import 'package:ecommerce_app/view/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginScreen extends GetWidget<AuthViewModel> {
-  LoginScreen({Key? key}) : super(key: key);
+class LoginView extends GetWidget<AuthViewModel> {
+  LoginView({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 

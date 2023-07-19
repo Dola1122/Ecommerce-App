@@ -11,39 +11,48 @@ class CartView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<CartViewModel>(
       init: CartViewModel(),
-      builder: (controller) => Scaffold(
-        body: SafeArea(
-          child: Container(
-            padding: EdgeInsets.only(
-              top: 16,
-              right: 16,
-              left: 16,
+      builder: (controller) => controller.isLoading == true
+          ? Center(child: CircularProgressIndicator())
+          : Scaffold(
+              body: SafeArea(
+                child: controller.cartProducts.length == 0
+                    ? Center(
+                        child: Text(
+                          'Cart is empty',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    : Container(
+                        padding: EdgeInsets.only(top: 16, right: 16, left: 16),
+                        child: ListView.builder(
+                          itemCount: controller.cartProducts.length,
+                          itemBuilder: (context, index) {
+                            CartProductModel model =
+                                controller.cartProducts[index];
+                            return CartItemWidget(
+                              product: model,
+                              onDecrease: () {
+                                if (model.quantity > 1) {
+                                  model.quantity--;
+                                  controller.updateCartProduct(model);
+                                }
+                              },
+                              onIncrease: () {
+                                model.quantity++;
+                                controller.updateCartProduct(model);
+                              },
+                            );
+                          },
+                        ),
+                      ),
+              ),
+              bottomNavigationBar: controller.cartProducts.length == 0
+                  ? null
+                  : CheckoutButtonWidget(
+                      totalAmount: controller.total,
+                    ),
             ),
-            child: ListView.builder(
-              itemCount: controller.cartProducts.length,
-              itemBuilder: (context, index) {
-                CartProductModel model = controller.cartProducts[index];
-                return CartItemWidget(
-                  product: model,
-                  onDecrease: () {
-                    if (model.quantity > 1) {
-                      model.quantity--;
-                      controller.updateCartProduct(model);
-                    }
-                  },
-                  onIncrease: () {
-                    model.quantity++;
-                    controller.updateCartProduct(model);
-                  },
-                );
-              },
-            ),
-          ),
-        ),
-        bottomNavigationBar: CheckoutButtonWidget(
-          totalAmount: controller.total,
-        ),
-      ),
     );
   }
 }
