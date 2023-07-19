@@ -1,16 +1,26 @@
-# ecommerce_app
 
-A new Flutter project.
+# Ecommerce App
 
-## Getting Started
+Ecommerce Demo App built by flutter❤️ 
 
-This project is a starting point for a Flutter application.
+## ✨ Description
+I developed this ECommerce app using Flutter, Firebase, and the MVVM design pattern. It offers a user-friendly interface, secure user authentication, product catalog with search and filters, shopping cart and checkout functionality, order tracking, and push notifications. The app incorporates sqflite as a local database and utilizes GetX for efficient state management.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## ⚙ Tools Used
+- Flutter 
+- Dart
+- Postman
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+# Screenshots
+
+:-------------------------:
+<img width="432" alt="Screenshot 2023-07-19 180528" src="https://github.com/Dola1122/news_app/assets/90573805/7e5ac4af-6129-471a-ad2b-fe701a833fd2"> :-------------------------:
+
+:-------------------------:
+<img width="425" alt="Screenshot 2023-07-19 180328" src="https://github.com/Dola1122/news_app/assets/90573805/4d973722-972f-4a30-919b-6be685550ea5"> :-------------------------: 
+
+:-------------------------:
+<img width="431" alt="Screenshot 2023-07-19 180446" src="https://github.com/Dola1122/news_app/assets/90573805/5c1dd463-1b7b-4f3f-87fc-49757073ade3"> :-------------------------:  
